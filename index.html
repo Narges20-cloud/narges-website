@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>I'm Narges ♡</title>
+<title>I'm Narges Phillips ♡</title>
 
 <style>
 * { box-sizing: border-box; }
@@ -110,7 +110,7 @@ footer {
 
 <header>
   <div class="hero">🖤 🕊️ 🖤</div>
-  <h1>I'm Narges ♡</h1>
+  <h1>I'm Narges Phillips ♡</h1>
   <p class="small">Welcome to my little world...</p>
 
   <nav>
@@ -118,14 +118,14 @@ footer {
     <a href="#games">Games</a>
     <a href="#movies">Movies</a>
     <a href="#music">Music</a>
-    <a href="#gallery">Gallery</a>
+    <a href="#married">Married</a>
     <a href="#guestbook">Guestbook</a>
   </nav>
 </header>
 
 <section id="about">
   <h2>♡ About Me</h2>
-  <p><b>Name:</b> Narges</p>
+  <p><b>Name:</b> Narges Phillips</p>
   <p><b>Birthday:</b> September 3, 2006</p>
   <p><b>Zodiac:</b> Virgo ♍</p>
   <p><b>Personality:</b> Introvert</p>
@@ -135,7 +135,7 @@ footer {
 
 <section id="games">
   <h2>♡ Favorite Games</h2>
-  <p>Minecraft · Roblox · Steam · Fortnite · Xbox</p>
+  <p>Minecraft · Roblox · Steam ·</p>
 </section>
 
 <section id="movies">
@@ -155,10 +155,9 @@ footer {
   </iframe>
 </section>
 
-<section id="gallery">
-  <h2>♡ My Gallery</h2>
-  <p>Add your favorite pictures here later.</p>
-  <div class="hero">🌙 🦋 🕊️ 🖤</div>
+<section id="married">
+  <h2>♡ Married</h2>
+  <p>Narges Phillips ♡</p>
 </section>
 
 <section id="guestbook">
@@ -191,7 +190,7 @@ footer {
   <div id="adminMessages"></div>
 </section>
 
-<footer>Made with ♡ by Narges</footer>
+<footer>Made with ♡ by Narges Phillips</footer>
 
 </main>
 
@@ -199,17 +198,9 @@ footer {
 import { createClient } from
   "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-// Replace these two values with your own Supabase project details.
-const SUPABASE_URL = "YOUR_PROJECT_URL";
-const SUPABASE_KEY = "YOUR_PUBLISHABLE_KEY";
-
-// Replace this with your own Supabase Auth user ID.
-const ADMIN_ID = "YOUR_ADMIN_USER_ID";
-
-const configured =
-  !SUPABASE_URL.includes("YOUR_") &&
-  !SUPABASE_KEY.includes("YOUR_") &&
-  !ADMIN_ID.includes("YOUR_");
+const SUPABASE_URL = "https://pizghiuvitbecbgpnhni.supabase.co";
+const SUPABASE_KEY = "sb_publishable_UBoOTPerC1JqyQq3JRZOMA_i9fgzz1y";
+const ADMIN_ID = "d8cc434d-1815-4f5b-8ba5-3a195c6906a7";
 
 const statusBox = document.getElementById("status");
 const messagesBox = document.getElementById("messages");
@@ -218,146 +209,142 @@ const form = document.getElementById("messageForm");
 const loginForm = document.getElementById("loginForm");
 const logoutButton = document.getElementById("logoutButton");
 
-if (!configured) {
-  statusBox.textContent =
-    "Guestbook setup is not finished yet.";
-} else {
-  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  async function loadMessages() {
-    const { data, error } = await supabase
-      .from("guestbook")
-      .select("id, name, message, created_at")
-      .eq("approved", true)
-      .order("created_at", { ascending: false });
+async function loadMessages() {
+  const { data, error } = await supabase
+    .from("guestbook")
+    .select("id, name, message, created_at")
+    .eq("approved", true)
+    .order("created_at", { ascending: false });
 
-    if (error) {
-      statusBox.textContent = "Could not load messages.";
-      return;
-    }
-
-    messagesBox.replaceChildren();
-
-    data.forEach(item => {
-      const card = document.createElement("div");
-      card.className = "message";
-
-      const name = document.createElement("b");
-      name.textContent = item.name + " ♡";
-
-      const message = document.createElement("p");
-      message.textContent = item.message;
-
-      card.append(name, message);
-      messagesBox.append(card);
-    });
+  if (error) {
+    statusBox.textContent = "Could not load messages.";
+    return;
   }
 
-  form.addEventListener("submit", async event => {
-    event.preventDefault();
+  messagesBox.replaceChildren();
 
-    const name = document.getElementById("visitorName").value.trim();
-    const message = document.getElementById("visitorMessage").value.trim();
+  data.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "message";
 
-    if (!name || !message) return;
+    const name = document.createElement("b");
+    name.textContent = item.name + " ♡";
 
-    const { error } = await supabase.from("guestbook").insert({
-      name,
-      message
-    });
+    const message = document.createElement("p");
+    message.textContent = item.message;
 
-    statusBox.textContent = error
-      ? "Message could not be sent."
-      : "Thank you! Your message is waiting for approval ♡";
-
-    if (!error) form.reset();
+    card.append(name, message);
+    messagesBox.append(card);
   });
-
-  loginForm.addEventListener("submit", async event => {
-    event.preventDefault();
-
-    const email = document.getElementById("adminEmail").value;
-    const password = document.getElementById("adminPassword").value;
-
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email, password
-    });
-
-    if (error || data.user.id !== ADMIN_ID) {
-      await supabase.auth.signOut();
-      alert("Admin login failed.");
-      return;
-    }
-
-    loginForm.hidden = true;
-    logoutButton.hidden = false;
-    await loadAdminMessages();
-  });
-
-  async function loadAdminMessages() {
-    const { data, error } = await supabase
-      .from("guestbook")
-      .select("id, name, message, approved")
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      adminBox.textContent = "Could not load admin messages.";
-      return;
-    }
-
-    adminBox.replaceChildren();
-
-    data.forEach(item => {
-      const card = document.createElement("div");
-      card.className = "message";
-
-      const details = document.createElement("p");
-      details.textContent =
-        item.name + ": " + item.message +
-        (item.approved ? " — Published" : " — Waiting");
-
-      const approve = document.createElement("button");
-      approve.textContent = item.approved ? "Approved" : "Approve";
-      approve.disabled = item.approved;
-      approve.onclick = async () => {
-        const { error } = await supabase
-          .from("guestbook")
-          .update({ approved: true })
-          .eq("id", item.id);
-
-        if (error) alert("Could not approve message.");
-        else await loadAdminMessages();
-      };
-
-      const remove = document.createElement("button");
-      remove.textContent = "Delete";
-      remove.onclick = async () => {
-        if (!confirm("Delete this message?")) return;
-
-        const { error } = await supabase
-          .from("guestbook")
-          .delete()
-          .eq("id", item.id);
-
-        if (error) alert("Could not delete message.");
-        else await loadAdminMessages();
-      };
-
-      card.append(details, approve, remove);
-      adminBox.append(card);
-    });
-  }
-
-  logoutButton.addEventListener("click", async () => {
-    await supabase.auth.signOut();
-    loginForm.hidden = false;
-    logoutButton.hidden = true;
-    adminBox.replaceChildren();
-  });
-
-  loadMessages();
 }
+
+form.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const name = document.getElementById("visitorName").value.trim();
+  const message = document.getElementById("visitorMessage").value.trim();
+
+  if (!name || !message) return;
+
+  const { error } = await supabase.from("guestbook").insert({
+    name,
+    message
+  });
+
+  statusBox.textContent = error
+    ? "Message could not be sent."
+    : "Thank you! Your message is waiting for approval ♡";
+
+  if (!error) form.reset();
+});
+
+loginForm.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const email = document.getElementById("adminEmail").value;
+  const password = document.getElementById("adminPassword").value;
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email, password
+  });
+
+  if (error || !data.user || data.user.id !== ADMIN_ID) {
+    await supabase.auth.signOut();
+    alert("Admin login failed.");
+    return;
+  }
+
+  loginForm.hidden = true;
+  logoutButton.hidden = false;
+  await loadAdminMessages();
+});
+
+async function loadAdminMessages() {
+  const { data, error } = await supabase
+    .from("guestbook")
+    .select("id, name, message, approved")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    adminBox.textContent = "Could not load admin messages.";
+    return;
+  }
+
+  adminBox.replaceChildren();
+
+  data.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "message";
+
+    const details = document.createElement("p");
+    details.textContent =
+      item.name + ": " + item.message +
+      (item.approved ? " — Published" : " — Waiting");
+
+    const approve = document.createElement("button");
+    approve.textContent = item.approved ? "Approved" : "Approve";
+    approve.disabled = item.approved;
+
+    approve.onclick = async () => {
+      const { error } = await supabase
+        .from("guestbook")
+        .update({ approved: true })
+        .eq("id", item.id);
+
+      if (error) alert("Could not approve message.");
+      else await loadAdminMessages();
+    };
+
+    const remove = document.createElement("button");
+    remove.textContent = "Delete";
+
+    remove.onclick = async () => {
+      if (!confirm("Delete this message?")) return;
+
+      const { error } = await supabase
+        .from("guestbook")
+        .delete()
+        .eq("id", item.id);
+
+      if (error) alert("Could not delete message.");
+      else await loadAdminMessages();
+    };
+
+    card.append(details, approve, remove);
+    adminBox.append(card);
+  });
+}
+
+logoutButton.addEventListener("click", async () => {
+  await supabase.auth.signOut();
+  loginForm.hidden = false;
+  logoutButton.hidden = true;
+  adminBox.replaceChildren();
+});
+
+loadMessages();
 </script>
 </body>
 </html>
-
