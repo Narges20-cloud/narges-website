@@ -1,1 +1,363 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I'm Narges ♡</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 20px;
+  color: #fceaff;
+  font-family: Georgia, serif;
+  background-color: #160d19;
+  background-image:
+    radial-gradient(ellipse at 20% 20%, #e94b9b 0 3px, transparent 4px),
+    radial-gradient(ellipse at 70% 60%, #e94b9b 0 4px, transparent 5px),
+    radial-gradient(ellipse at 40% 85%, #e94b9b 0 3px, transparent 4px);
+  background-size: 55px 55px;
+}
+
+main {
+  max-width: 850px;
+  margin: auto;
+}
+
+header, section {
+  background: rgba(35, 18, 39, .96);
+  border: 1px solid #dc78c1;
+  border-radius: 18px;
+  padding: 22px;
+  margin: 18px 0;
+  box-shadow: 0 0 15px #a83c83;
+}
+
+header { text-align: center; }
+
+h1 {
+  color: #ff9bd5;
+  font-size: 42px;
+  margin: 10px;
+}
+
+h2 { color: #e9b5ff; }
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+nav a {
+  color: #ffd0ed;
+  text-decoration: none;
+  background: #6e315f;
+  padding: 9px 13px;
+  border-radius: 20px;
+}
+
+nav a:hover { background: #a94e91; }
+
+.hero {
+  text-align: center;
+  font-size: 65px;
+  padding: 15px;
+}
+
+.small { color: #d9b9df; }
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #d77bbd;
+  border-radius: 10px;
+  background: #27152c;
+  color: white;
+}
+
+button {
+  padding: 11px 18px;
+  border: 0;
+  border-radius: 18px;
+  background: #e77bbb;
+  color: #241326;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.message {
+  border-bottom: 1px solid #88517e;
+  padding: 12px 0;
+  overflow-wrap: anywhere;
+}
+
+footer {
+  text-align: center;
+  color: #d9b9df;
+  padding: 20px;
+}
+</style>
+</head>
+
+<body>
+<main>
+
+<header>
+  <div class="hero">🖤 🕊️ 🖤</div>
+  <h1>I'm Narges ♡</h1>
+  <p class="small">Welcome to my little world...</p>
+
+  <nav>
+    <a href="#about">About me</a>
+    <a href="#games">Games</a>
+    <a href="#movies">Movies</a>
+    <a href="#music">Music</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#guestbook">Guestbook</a>
+  </nav>
+</header>
+
+<section id="about">
+  <h2>♡ About Me</h2>
+  <p><b>Name:</b> Narges</p>
+  <p><b>Birthday:</b> September 3, 2006</p>
+  <p><b>Zodiac:</b> Virgo ♍</p>
+  <p><b>Personality:</b> Introvert</p>
+  <p><b>Nationality:</b> Persian 🇮🇷</p>
+  <p class="small">A quiet mind with a big imagination.</p>
+</section>
+
+<section id="games">
+  <h2>♡ Favorite Games</h2>
+  <p>Minecraft · Roblox · Steam · Fortnite · Xbox</p>
+</section>
+
+<section id="movies">
+  <h2>♡ Favorite Movies</h2>
+  <p>Horror movies and animation movies 🎬</p>
+</section>
+
+<section id="music">
+  <h2>♡ My Music</h2>
+  <p class="small">we could never be together but its nice to play pretend</p>
+  <iframe
+    width="100%" height="200"
+    src="https://www.youtube-nocookie.com/embed/YNsigEv8Qt4"
+    title="My song"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+</section>
+
+<section id="gallery">
+  <h2>♡ My Gallery</h2>
+  <p>Add your favorite pictures here later.</p>
+  <div class="hero">🌙 🦋 🕊️ 🖤</div>
+</section>
+
+<section id="guestbook">
+  <h2>♡ Guestbook</h2>
+  <p class="small">Leave a little message for me!</p>
+
+  <form id="messageForm">
+    <input id="visitorName" maxlength="40"
+      placeholder="Your name" required>
+    <textarea id="visitorMessage" maxlength="500"
+      placeholder="Write a message..." required></textarea>
+    <button type="submit">Send ♡</button>
+  </form>
+
+  <p id="status" class="small"></p>
+  <div id="messages"></div>
+</section>
+
+<section id="admin">
+  <h2>♡ Private Admin</h2>
+  <p class="small">Only the site owner can sign in here.</p>
+  <form id="loginForm">
+    <input id="adminEmail" type="email"
+      placeholder="Admin email" required>
+    <input id="adminPassword" type="password"
+      placeholder="Admin password" required>
+    <button type="submit">Log in</button>
+  </form>
+  <button id="logoutButton" hidden>Log out</button>
+  <div id="adminMessages"></div>
+</section>
+
+<footer>Made with ♡ by Narges</footer>
+
+</main>
+
+<script type="module">
+import { createClient } from
+  "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+// Replace these two values with your own Supabase project details.
+const SUPABASE_URL = "YOUR_PROJECT_URL";
+const SUPABASE_KEY = "YOUR_PUBLISHABLE_KEY";
+
+// Replace this with your own Supabase Auth user ID.
+const ADMIN_ID = "YOUR_ADMIN_USER_ID";
+
+const configured =
+  !SUPABASE_URL.includes("YOUR_") &&
+  !SUPABASE_KEY.includes("YOUR_") &&
+  !ADMIN_ID.includes("YOUR_");
+
+const statusBox = document.getElementById("status");
+const messagesBox = document.getElementById("messages");
+const adminBox = document.getElementById("adminMessages");
+const form = document.getElementById("messageForm");
+const loginForm = document.getElementById("loginForm");
+const logoutButton = document.getElementById("logoutButton");
+
+if (!configured) {
+  statusBox.textContent =
+    "Guestbook setup is not finished yet.";
+} else {
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  async function loadMessages() {
+    const { data, error } = await supabase
+      .from("guestbook")
+      .select("id, name, message, created_at")
+      .eq("approved", true)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      statusBox.textContent = "Could not load messages.";
+      return;
+    }
+
+    messagesBox.replaceChildren();
+
+    data.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "message";
+
+      const name = document.createElement("b");
+      name.textContent = item.name + " ♡";
+
+      const message = document.createElement("p");
+      message.textContent = item.message;
+
+      card.append(name, message);
+      messagesBox.append(card);
+    });
+  }
+
+  form.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const name = document.getElementById("visitorName").value.trim();
+    const message = document.getElementById("visitorMessage").value.trim();
+
+    if (!name || !message) return;
+
+    const { error } = await supabase.from("guestbook").insert({
+      name,
+      message
+    });
+
+    statusBox.textContent = error
+      ? "Message could not be sent."
+      : "Thank you! Your message is waiting for approval ♡";
+
+    if (!error) form.reset();
+  });
+
+  loginForm.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const email = document.getElementById("adminEmail").value;
+    const password = document.getElementById("adminPassword").value;
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email, password
+    });
+
+    if (error || data.user.id !== ADMIN_ID) {
+      await supabase.auth.signOut();
+      alert("Admin login failed.");
+      return;
+    }
+
+    loginForm.hidden = true;
+    logoutButton.hidden = false;
+    await loadAdminMessages();
+  });
+
+  async function loadAdminMessages() {
+    const { data, error } = await supabase
+      .from("guestbook")
+      .select("id, name, message, approved")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      adminBox.textContent = "Could not load admin messages.";
+      return;
+    }
+
+    adminBox.replaceChildren();
+
+    data.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "message";
+
+      const details = document.createElement("p");
+      details.textContent =
+        item.name + ": " + item.message +
+        (item.approved ? " — Published" : " — Waiting");
+
+      const approve = document.createElement("button");
+      approve.textContent = item.approved ? "Approved" : "Approve";
+      approve.disabled = item.approved;
+      approve.onclick = async () => {
+        const { error } = await supabase
+          .from("guestbook")
+          .update({ approved: true })
+          .eq("id", item.id);
+
+        if (error) alert("Could not approve message.");
+        else await loadAdminMessages();
+      };
+
+      const remove = document.createElement("button");
+      remove.textContent = "Delete";
+      remove.onclick = async () => {
+        if (!confirm("Delete this message?")) return;
+
+        const { error } = await supabase
+          .from("guestbook")
+          .delete()
+          .eq("id", item.id);
+
+        if (error) alert("Could not delete message.");
+        else await loadAdminMessages();
+      };
+
+      card.append(details, approve, remove);
+      adminBox.append(card);
+    });
+  }
+
+  logoutButton.addEventListener("click", async () => {
+    await supabase.auth.signOut();
+    loginForm.hidden = false;
+    logoutButton.hidden = true;
+    adminBox.replaceChildren();
+  });
+
+  loadMessages();
+}
+</script>
+</body>
+</html>
+
